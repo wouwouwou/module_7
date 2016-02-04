@@ -1,7 +1,7 @@
 from perm import *
 
 # Create a test permutation of length 20
-q = testPermutations(20)
+q = testPermutation(20)
 print(q)
 
 # Define a permutation of length 10
@@ -18,4 +18,3 @@ print(r)
 printPermutation(r)
 print(r[0])
 print(isTrivial(r))
-

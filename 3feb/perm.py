@@ -1,5 +1,3 @@
-
-
 def permutationFromCycles(n, cycles):
     mapping = [0]*n
     for i in range(n):
