@@ -10,13 +10,16 @@ However, the data structure used is quite basic and inefficient: a graph object 
 # version: 29-01-2015, Paul Bonsma
 
 
-unsafe=False	
+unsafe = False
 # Set to True for faster, but unsafe listing of all vertices and edges.
 
+
 class GraphError(Exception):
+
 	def __init__(self,message):
 		self.mess=message
-		
+
+
 	def __str__(self):
 		return self.mess
 		
@@ -36,7 +39,8 @@ class vertex():
 		"""
 		self._graph=graph
 		self._label=label
-		
+
+
 	def __repr__(self):
 		return str(self._label)		
 		
