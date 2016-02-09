@@ -33,36 +33,50 @@ from perm import *
 
 
 def composition(p, q):
-    return 0
+    return
 
 
 # Create a test permutation of length 20
 q = testPermutation(20)
-print(q)
+print("\nTest permutation q of length 20: " + str(q) + "\n")
 
 # Define a permutation of length 10
 p = [1, 2, 3, 0, 5, 4, 6, 7, 8, 9]
-print(p)
+print("Permutation p of length 10: " + str(p) + "\n")
+print("Permutation p with cycle notation: ")
 printPermutation(p)
+print()
+print("Is the permutation p trivial?")
 print(isTrivial(p))
-print(p[0])
-print(cycles(p))
+print()
+print("The permutation at p[0] is: " + str(p[0]) + "\n")
+print("Another cycle notation of p is: " + str(cycles(p)) + "\n")
 
 # Create a trivial permutation of length 10
 r = trivialPermutation(10)
-print(r)
+print("The trivial permutation r is: " + str(r) + "\n")
+print("Some information:")
 printPermutation(r)
 print(r[0])
-print(isTrivial(r))
+print(str(isTrivial(r)) + "\n")
 
 # trying for cycle notation. Did understand it after using google. :D
 n = [1, 2, 3, 4, 0]
+print("The permutation n is: ")
 printPermutation(n)
+print()
 
 # trying to compare permutations
 m = testPermutation(10)
 s = trivialPermutation(10)
 
-print(m)
-print(s)
+print("Permutation m: " + str(m))
+print("Permutation s: " + str(s))
+print("m equals s? ")
 print(m == s)
+print()
+
+p = [1, 2, 3, 0, 5, 6, 4, 8, 7]
+printPermutation(p)
+# q = composition(p, p)
+# printPermutation(q)
