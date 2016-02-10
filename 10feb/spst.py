@@ -2,25 +2,34 @@ from graphIO import loadgraph, writeDOT  # graphIO imports basicgraphs.py, so we
 
 # Use these options to change the tests:
 
-TestBellmanFordDirected = True
+TestBellmanFordDirected = False
 TestBellmanFordUndirected = False
-TestDijkstraDirected = False
+TestDijkstraDirected = True
 TestDijkstraUndirected = False
 TestKruskal = False
 
 WriteDOTFiles = True
 
 # Use these options to select the graphs to test your algorithms on:
-TestInstances = ["weightedexample.gr"]
-# TestInstances=["randomplanar.gr"]
-# TestInstances=["negativeweightexample.gr"]
-# TestInstances=["negativeweightcycleexample.gr"]
-# TestInstances=["WDE100.gr","WDE200.gr","WDE400.gr","WDE800.gr","WDE2000.gr"]; WriteDOTFiles=False
-# TestInstances=["bbf2000.gr"]
+# TestInstances = ["weightedexample.gr"]
+# TestInstances = ["randomplanar.gr"]
+# TestInstances = ["negativeweightexample.gr"]
+# TestInstances = ["negativeweightcycleexample.gr"]
+# TestInstances = ["WDE100.gr", "WDE200.gr", "WDE400.gr", "WDE800.gr", "WDE2000.gr"];
+WriteDOTFiles = True
+TestInstances = ["bbf2000.gr"]
+
+# writeDOT(loadgraph("randomplanar.gr"), "randomplanar.dot")
 
 # If you have implemented a module fastgraphs.py (compatible with basicgraphs.py),
 # you can set this option to True:
 UseFastGraphs = False
+
+
+def relax(u, v, e):
+    if u.dist is not None and (v.dist is None or e.weight + u.dist < v.dist):
+        v.dist = e.weight + u.dist
+        v.inedge = e
 
 
 def BellmanFordUndirected(G, start):
@@ -38,6 +47,12 @@ def BellmanFordUndirected(G, start):
         v.dist = None
         v.inedge = None
     start.dist = 0
+    for i in range(len(G.V()) - 1):
+        for e in G.E():
+            x = e.tail()
+            y = e.head()
+            relax(x, y, e)
+            relax(y, x, e)
 
 
 def BellmanFordDirected(G, start):
@@ -54,8 +69,11 @@ def BellmanFordDirected(G, start):
         v.dist = None
         v.inedge = None
     start.dist = 0
-    for e in G.E():
-        e.weight = 0
+    for i in range(len(G.V()) - 1):
+        for e in G.E():
+            x = e.tail()
+            y = e.head()
+            relax(x, y, e)
 
 
 def DijkstraUndirected(G, start):
@@ -74,7 +92,20 @@ def DijkstraUndirected(G, start):
     start.dist = 0
 
 
-# Insert your code here.
+def getMinVec(s):
+    d = set()
+    for x in s:
+        if x.dist is not None:
+            d.add(x.dist)
+
+    m = None
+    for i in d:
+        if m is None or i < m:
+            m = i
+
+    for x in s:
+        if x.dist == m:
+            return x
 
 
 
@@ -88,13 +119,25 @@ def DijkstraDirected(G, start):
 		shortest path edge, for every reachable vertex except <start>.
 		<G> is viewed as a directed graph.
 	"""
+
+    s = set()
+
     for v in G.V():
         v.dist = None
         v.inedge = None
+        s.add(v)
     start.dist = 0
 
+    while s.__len__() > 0:
+        x = getMinVec(s)
+        s.remove(x)
 
-# Insert your code here.
+        for e in x.inclist():
+            if e.tail() == x:
+                y = e.head()
+                relax(x, y, e)
+
+
 
 
 def Kruskal(G):
