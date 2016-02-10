@@ -17,9 +17,10 @@ WriteDOTFiles = True
 # TestInstances = ["negativeweightcycleexample.gr"]
 # TestInstances = ["WDE100.gr", "WDE200.gr", "WDE400.gr", "WDE800.gr", "WDE2000.gr"];
 WriteDOTFiles = True
-TestInstances = ["bbf2000.gr"]
+# TestInstances = ["bbf2000.gr"]
+TestInstances = ["graph7.gr"]
 
-# writeDOT(loadgraph("randomplanar.gr"), "randomplanar.dot")
+writeDOT(loadgraph("negativeweightexample.gr"), "negativeweightexample.dot")
 
 # If you have implemented a module fastgraphs.py (compatible with basicgraphs.py),
 # you can set this option to True:
@@ -74,6 +75,11 @@ def BellmanFordDirected(G, start):
             x = e.tail()
             y = e.head()
             relax(x, y, e)
+    for e in G.E():
+        a = e.tail()
+        b = e.head()
+        if a.dist is not None and a.dist + e.weight < b.dist:
+            raise Exception("Graph contains a negative-weight cycle")
 
 
 def DijkstraUndirected(G, start):
@@ -108,7 +114,6 @@ def getMinVec(s):
             return x
 
 
-
 def DijkstraDirected(G, start):
     """
 	Arguments: <G> is a graph object, where edges have integer <weight> 
@@ -136,8 +141,6 @@ def DijkstraDirected(G, start):
             if e.tail() == x:
                 y = e.head()
                 relax(x, y, e)
-
-
 
 
 def Kruskal(G):
